@@ -1,1 +1,2 @@
-X X_Ave X_Max X_Sum
+Leader MktSh Sum_MktSh X X_Ave X_Max X_Sum
+IdFirm Max Min
