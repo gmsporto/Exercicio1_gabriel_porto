@@ -1,2 +1,2 @@
-Leader MktSh Sum_MktSh X X_Ave X_Max X_Sum
-IdFirm Max Min
+Leader MktSh Rank Sum_MktSh X X_Ave X_Max X_Sum
+firm_rank IdFirm Max Min
