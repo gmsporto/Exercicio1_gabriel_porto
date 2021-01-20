@@ -106,28 +106,26 @@ EQUATION("Rank") // Sim4
 /*
 LEVEL: SECTOR
 */
-	v[0]=1;
+SORT("FIRM", "X", "DOWN");
+	v[0]=0;
 	CYCLE(cur, "FIRM")
 	{
-			cur1=SORT("FIRM", "X", "DOWN");
-			CYCLE(cur, cur1)
-			{
-					WRITES(cur, "firm_rank", v[0]);
-					v[0]=v[0]+1;	
-			}				
-	}
-
-/*
-v[0]=1;
-	cur1=SORT("FIRM", "X", "DOWN");
-	CYCLE(cur, cur1)
-	{
+			v[0]++;
 			WRITES(cur, "firm_rank", v[0]);
-			v[0]=v[0]+1;				
 	}
-*/
+RESULT(0)
 
-RESULT(v[0])
+EQUATION("EntryExit")
+	v[0]=V("switch_entry")
+	if(v[0]==1)
+	{
+			cur=SEARCH_CND("firm_rank",10);
+			DELETE(cur);
+			cur1=SEARCH_CND("firm_rank",5);
+			ADDOBJ_EX("FIRM", cur1);
+	}
+RESULT(0)
+
 
 MODELEND
 
