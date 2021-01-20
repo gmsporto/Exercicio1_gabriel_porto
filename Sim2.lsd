@@ -1,10 +1,19 @@
 	
 Label Root
 {
-	Son: MODEL
-	Label MODEL
+	Son: SECTOR
+	Label SECTOR
 	{
-		Var: X
+		Son: FIRM
+		Label FIRM
+		{
+			Var: X
+
+		}
+
+		Var: X_Ave
+		Var: X_Sum
+		Var: X_Max
 
 	}
 
@@ -16,11 +25,16 @@ DATA
 
 Object: Root C	1
 
-Object: MODEL C	10
-Var: X 1 s + n p	0	0	0	0	0	0	0	0	0	0
+Object: SECTOR C	1
+Var: X_Ave 0 s + n p
+Var: X_Sum 0 s + n p
+Var: X_Max 0 s + n p
+
+Object: FIRM C	10
+Var: X 1 s + n n	0	0	0	0	0	0	0	0	0	0
 
 SIM_NUM 1
-SEED 5
+SEED 1
 MAX_STEP 100
 EQUATION fun_exercicio.cpp
 MODELREPORT report_Sim1.html
@@ -31,14 +45,39 @@ Object_Root
 (no description available)
 END_DESCRIPTION
 
-Object_MODEL
+Object_SECTOR
+(no description available)
+_INIT_
+
+END_DESCRIPTION
+
+Variable_X_Ave
+Variável do Setor
+_INIT_
+
+END_DESCRIPTION
+
+Variable_X_Sum
+Variável do Setor
+_INIT_
+
+END_DESCRIPTION
+
+Variable_X_Max
+Variável do Setor
+_INIT_
+
+END_DESCRIPTION
+
+Object_FIRM
 (no description available)
 _INIT_
 
 END_DESCRIPTION
 
 Variable_X
-Equacao X
+X (t) = X (t-1) + ruido branco   
+
 _INIT_
 All 10 instances equal to 0.
 END_DESCRIPTION
@@ -69,12 +108,30 @@ MODELBEGIN
 
 EQUATION("X")
 /*
-Equacao X
+X (t) = X (t-1) + ruido branco   
 */
 v[0] = VL("X",1);
 v[1] = norm(0, 2.5); 
 v[2] = v[0]+v[1];
 RESULT(v[2])
+
+EQUATION("X_Sum")
+/*
+Variável do Setor
+*/
+RESULT(SUM("X"))
+
+EQUATION("X_Ave")
+/*
+Variável do Setor
+*/
+RESULT(AVE("X"))
+
+EQUATION ("X_Max")
+/*
+Variável do Setor
+*/
+RESULT(MAX("X"))
 
 
 
