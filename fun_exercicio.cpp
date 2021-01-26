@@ -14,9 +14,9 @@ EQUATION("X")
 //LEVEL: FIRM
 	v[1]=V("p"); 
 	v[2]=V("quali");
-	v[3]=V("X_p");								// parâmetro de calibragem
-	v[4]=V("X_quali");						// parâmetro de calibragem
-	v[5]=(v[1]*v[3])+(v[2]*v[4])+norm(0, 1.25);
+	v[3]=V("X_p");									// parâmetro de calibragem
+	v[4]=V("X_quali");							// parâmetro de calibragem
+	v[5]=(v[2]*v[4])-(v[1]*v[3])+norm(0, 1.25);
 	if (v[5]>0) {v[6]=v[5];}
 	else {v[6]=0;}	
 RESULT(v[6])
@@ -26,7 +26,7 @@ EQUATION("p")
 //LEVEL: FIRM
 	v[0]=VL("p",1);
 	v[1]=VL("MktSh",1)-VL("MktSh",2);
-	v[2]=V("p_MktSh"); 			    // parâmetro de calibragem
+	v[2]=V("p_MktSh"); 			   		 // parâmetro de calibragem
 	v[3]=v[0]+v[2]*v[1];
 	if (v[4]>0) {v[5]=v[4];}
 	else {v[5]=0;}
