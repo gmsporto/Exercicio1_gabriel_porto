@@ -10,32 +10,55 @@ MODELBEGIN
 // insert your equations here, between the MODELBEGIN and MODELEND words
 
 
-EQUATION("X") //Sim1
-/*
-LEVEL: FIRM
-*/
-	v[0] = VL("X",1);
-	v[1] = V("Max"); 
-	v[2] = V("Min");
-	v[3] = v[0]+uniform(v[1],v[2]);
-	RESULT(v[3])
+EQUATION("X") 
+//LEVEL: FIRM
+	v[1]=V("p"); 
+	v[2]=V("quali");
+	v[3]=V("X_p");								// parâmetro de calibragem
+	v[4]=V("X_quali");						// parâmetro de calibragem
+	v[5]=(v[1]*v[3])+(v[2]*v[4])+norm(0, 1.25);
+	if (v[5]>0) {v[6]=v[5];}
+	else {v[6]=0;}	
+RESULT(v[6])
 
-EQUATION("X_Sum")  //Sim2
-/*
-LEVEL: SECTOR
-*/
+
+EQUATION("p")
+//LEVEL: FIRM
+	v[0]=VL("p",1);
+	v[1]=VL("MktSh",1)-VL("MktSh",2);
+	v[2]=V("p_MktSh"); 			    // parâmetro de calibragem
+	v[3]=v[0]+v[2]*v[1];
+	if (v[4]>0) {v[5]=v[4];}
+	else {v[5]=0;}
+RESULT(v[5])
+
+
+EQUATION("quali")
+//LEVEL: FIRM
+	v[0]=VL("quali",1);
+	v[1]=V("quali_med"); 						//parâmetro de calibragem
+	v[2]=V("quali_desvpad");				//parâmetro de calibragem
+	v[3]=norm(v[1],v[2]);
+	if (v[3]>0) {v[4]=v[0]+v[3];}
+	else {v[4]=v[0];}
+RESULT(v[4])
+
+
+
+//  ** EXERCÍCIOS ANTERIORES **
+
+EQUATION("X_Sum")  
+//LEVEL: SECTOR
 	v[0]=0;
 	CYCLE(cur, "FIRM")
 	{
 			v[1]=VS(cur,"X");
 			v[0]=v[0]+v[1];
 	}
-	RESULT(v[0])
+RESULT(v[0])
 
 EQUATION("X_Ave")
-/*
-LEVEL: SECTOR
-*/
+//LEVEL: SECTOR
 	v[0]=0;
 	CYCLE(cur, "FIRM")
 	{
@@ -43,13 +66,11 @@ LEVEL: SECTOR
 			v[0]=v[0]+v[1];
 			v[2]= COUNT_ALLS(cur,"FIRM");  
 	}
-	RESULT(v[0]/v[2])
+RESULT(v[0]/v[2])
 
 
 EQUATION ("X_Max")
-/*
-LEVEL: SECTOR
-*/
+//LEVEL: SECTOR
 	v[0]=0;
 	CYCLE(cur, "FIRM")
 	{
@@ -59,35 +80,29 @@ LEVEL: SECTOR
 			else 
 			{v[0]=v[0];}
 	}
-	RESULT(v[0])
+RESULT(v[0])
 
 
-EQUATION("MktSh") //Sim3
-/*
-LEVEL: FIRM
-*/
+EQUATION("MktSh")
+//LEVEL: FIRM
 	v[0]=V("X");
 	v[1]=V("X_Sum");
-	RESULT(v[0]/v[1])
+RESULT(v[0]/v[1])
 
 
 EQUATION("Sum_MktSh")
-/*
-LEVEL:SECTOR
-*/
+//LEVEL:SECTOR
 	v[0]=0;
 	CYCLE(cur,"FIRM")
 	{
 			v[1]=VS(cur,"MktSh");
 			v[0]=v[0]+v[1];
 	}
-	RESULT(v[0])
+RESULT(v[0])
 
 
-EQUATION("Leader") // DESAFIO
-/*
-LEVEL: SECTOR
-*/
+EQUATION("Leader") 
+//LEVEL: SECTOR
 	v[0]=0;
 	v[1]=0;
 	CYCLE(cur, "FIRM")
@@ -99,13 +114,11 @@ LEVEL: SECTOR
 			else 
 			{v[0]=v[0]; v[1]=v[1];}
 	}
-	RESULT(v[1]) 
+RESULT(v[1]) 
 
 
-EQUATION("Rank") // Sim4
-/*
-LEVEL: SECTOR
-*/
+EQUATION("Rank") 
+//LEVEL: SECTOR
 SORT("FIRM", "X", "DOWN");
 	v[0]=0;
 	CYCLE(cur, "FIRM")
@@ -115,7 +128,9 @@ SORT("FIRM", "X", "DOWN");
 	}
 RESULT(0)
 
+/*
 EQUATION("EntryExit")
+//LEVEL: SECTOR
 	v[0]=V("switch_entry")
 	if(v[0]==1)
 	{
@@ -125,7 +140,7 @@ EQUATION("EntryExit")
 			ADDOBJ_EX("FIRM", cur1);
 	}
 RESULT(0)
-
+*/
 
 MODELEND
 

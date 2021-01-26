@@ -1,2 +1,2 @@
-Leader MktSh Rank Sum_MktSh X X_Ave X_Max X_Sum
-firm_rank IdFirm Max Min
+EntryExit Leader MktSh p quali Rank Sum_MktSh X X_Ave X_Max X_Sum
+firm_rank IdFirm p_MktSh quali_desvpad quali_med switch_entry X_p X_quali
