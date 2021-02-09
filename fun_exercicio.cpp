@@ -12,14 +12,13 @@ MODELBEGIN
 
 EQUATION("X") 
 //LEVEL: FIRM
-	v[1]=V("p"); 
-	v[2]=V("quali");
-	v[3]=V("X_p");									// parâmetro de calibragem
-	v[4]=V("X_quali");							// parâmetro de calibragem
-	v[5]=(v[2]*v[4])-(v[1]*v[3])+norm(0, 1.25);
-	if (v[5]>0) {v[6]=v[5];}
-	else {v[6]=0;}	
-RESULT(v[6])
+	v[1]=V("quali");
+	v[2]=V("p"); 
+	v[3]=V("X_quali");					// parâmetro de calibragem
+	v[4]=V("X_p");							// parâmetro de calibragem
+	if (v[2]!=0) {v[5]=norm(0, 2)+pow(v[1],v[3])/pow(v[2],v[4]);}
+	else {v[5]=VL("X",1);}
+RESULT(max(v[5],0))
 
 
 EQUATION("p")
@@ -28,9 +27,7 @@ EQUATION("p")
 	v[1]=VL("MktSh",1)-VL("MktSh",2);
 	v[2]=V("p_MktSh"); 			   		 // parâmetro de calibragem
 	v[3]=v[0]+v[2]*v[1];
-	if (v[4]>0) {v[5]=v[4];}
-	else {v[5]=0;}
-RESULT(v[5])
+RESULT(max(v[3],0))
 
 
 EQUATION("quali")
@@ -43,7 +40,15 @@ EQUATION("quali")
 	else {v[4]=v[0];}
 RESULT(v[4])
 
-
+EQUATION("HHIinv")
+//Level: SECTOR
+	v[0]=0;
+	CYCLE(cur,"FIRM")
+	{
+		v[1]=pow(VS(cur,"MktSh"),2);
+		v[0]+=v[1];
+	}
+RESULT(1/v[0])
 
 //  ** EXERCÍCIOS ANTERIORES **
 
@@ -87,7 +92,9 @@ EQUATION("MktSh")
 //LEVEL: FIRM
 	v[0]=V("X");
 	v[1]=V("X_Sum");
-RESULT(v[0]/v[1])
+	if (v[1]!=0) {v[2]=v[0]/v[1];}
+	else {v[2]=0;}
+RESULT(v[2])
 
 
 EQUATION("Sum_MktSh")
