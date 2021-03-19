@@ -5,3 +5,4 @@ Exercicio 2 (aula 6/1/21): estrutura em dois níveis + macros IF e CYCLE.
 Exercicio 2.1 (aula 15/1/21): ranking das firmas.
 Exercício 3 (aula 21/1/21): intuição econômica (variáveis preço e qualidade).
 Exercício 4 (aula 2/2/21): análise dos resultados. 
+Exercicio 5 (aula 10/3/21): análise de sensibilidade. 

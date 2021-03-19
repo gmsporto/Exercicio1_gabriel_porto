@@ -24,6 +24,7 @@ LIBS=-lz
 
 # Compiler options
 CC=x86_64-w64-mingw32-g++
+CC_CROSS=x86_64-w64-mingw32-
 GLOBAL_CC=-march=native -std=gnu++14 -w
 SSWITCH_CC=-mthreads -mwindows -O3
 LSDROOT=C:/LSD
